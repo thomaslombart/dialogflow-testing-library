@@ -1,5 +1,10 @@
+const {
+  matcherHint,
+  printReceived,
+  printExpected
+} = require("jest-matcher-utils");
 const diff = require("jest-diff");
-const { isEqual } = require("lodash");
+const isEqual = require("lodash.isequal");
 const colors = require("colors");
 
 const structjson = require("./structjson");
@@ -12,11 +17,11 @@ const matchers = {
     return {
       pass: matchedIntent === intent,
       message: () =>
-        `${this.utils.matcherHint(
+        `${matcherHint(
           ".toHaveIntent"
-        )}\n\nQuery: "${query}"\nExpected intent: ${this.utils.printExpected(
+        )}\n\nQuery: "${query}"\nExpected intent: ${printExpected(
           intent
-        )}\nReceived intent: ${this.utils.printReceived(
+        )}\nReceived intent: ${printReceived(
           matchedIntent
         )}.\n\nYou may want to check your ${
           "training phrases".bold
