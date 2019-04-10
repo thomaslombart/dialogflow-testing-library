@@ -273,8 +273,6 @@ test("It returns a question if talk about our favorite color", async () => {
 });
 ```
 
-**Note**: the **order of your quick replies matters**. `["Another one", "Learn more", "Share it"]` is not the same as `["Another one", "Share it", "Learn more"]`.
-
 ## Roadmap
 
 - Test this library
