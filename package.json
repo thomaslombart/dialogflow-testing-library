@@ -27,6 +27,10 @@
     "chatbot"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/thomlom/dialogflow-testing-library.git"
+  },
   "bugs": {
     "url": "https://github.com/thomlom/dialogflow-testing-library/issues"
   },
