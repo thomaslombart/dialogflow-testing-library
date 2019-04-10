@@ -247,6 +247,34 @@ test("It returns a question if talk about our favorite color", async () => {
 
 **Note**: the **order of your quick replies matters**. `["Another one", "Learn more", "Share it"]` is not the same as `["Another one", "Share it", "Learn more"]`.
 
+### `expect(result).toHaveBasicCard(expectedCard)`
+
+Asserts the displayed card is the same as the one you've provided
+
+- `result`: an instance of [**QueryResult**](https://cloud.google.com/dialogflow-enterprise/docs/reference/rest/v2/projects.agent.sessions/detectIntent#QueryResult)
+- `expectedCard`: an instance of [**BasicCard**](https://cloud.google.com/dialogflow-enterprise/docs/reference/rest/v2/projects.agent.intents#card)
+
+```js
+test("It returns a question if talk about our favorite color", async () => {
+  const { request } = bot;
+  const result = await request("Tell me more about yellow");
+
+  expect(result).toHaveBasicCard({
+    title: "Yellow",
+    subtitle: "Color between orange and red",
+    imageUri: "https://myappaboutcolors.dev/yellow.jpg",
+    buttons: [
+      {
+        text: "Learn more about yellow",
+        postback: "https://myappaboutcolors.dev/yellow"
+      }
+    ]
+  });
+});
+```
+
+**Note**: the **order of your quick replies matters**. `["Another one", "Learn more", "Share it"]` is not the same as `["Another one", "Share it", "Learn more"]`.
+
 ## Roadmap
 
 - Test this library

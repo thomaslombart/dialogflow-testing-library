@@ -162,6 +162,30 @@ const matchers = {
           "in the right order."
         )}`
     };
+  },
+  toHaveBasicCard(result, expectedCard) {
+    const cardArray = result.fulfillmentMessages.filter(
+      ({ message, platform }) =>
+        message === "card" && platform === "PLATFORM_UNSPECIFIED"
+    );
+
+    if (cardArray.length === 0) {
+      return {
+        pass: false,
+        message: () => colors.red("There are no cards in the response.")
+      };
+    }
+
+    const card = cardArray[0].card;
+
+    return {
+      pass: isEqual(card, expectedCard),
+      message: () =>
+        `The expected card is different from the received one:\n\n${diff(
+          card,
+          expectedCard
+        )}.`
+    };
   }
 };
 
