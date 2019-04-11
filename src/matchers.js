@@ -1,8 +1,4 @@
-const {
-  matcherHint,
-  printReceived,
-  printExpected
-} = require("jest-matcher-utils");
+const { printReceived, printExpected } = require("jest-matcher-utils");
 const diff = require("jest-diff");
 const isEqual = require("lodash.isequal");
 const colors = require("colors");
@@ -18,20 +14,24 @@ const matchers = {
     return {
       pass: matchedIntent === intent,
       message: () =>
-        `${matcherHint(
-          ".toHaveIntent"
-        )}\n\nQuery: "${query}"\nExpected intent: ${printExpected(
+        `Query: "${query}"\nExpected intent: ${printExpected(
           intent
         )}\nReceived intent: ${printReceived(
           matchedIntent
         )}.\n\nYou may want to check your ${
           "training phrases".bold
-        }. For example make sure they are not ${
-          "conflicting".bold
-        } across your intents.`
+        }. Make sure they are not ${"conflicting".bold} across your intents.`
     };
   },
   toHaveContext(result, expectedContext) {
+    if (!expectedContext || isEqual(expectedContext, {})) {
+      return {
+        pass: false,
+        message: () =>
+          `You didn't give a context\nRefer to these docs for the format: https://cloud.google.com/dialogflow-enterprise/docs/reference/rest/v2/projects.agent.sessions.contexts#Context.`
+      };
+    }
+
     const receivedContext = result.outputContexts.find(context => {
       const contextName = context.name.split("contexts/")[1];
       return expectedContext.name === contextName;
