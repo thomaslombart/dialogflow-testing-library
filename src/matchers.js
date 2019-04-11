@@ -8,6 +8,7 @@ const isEqual = require("lodash.isequal");
 const colors = require("colors");
 
 const structjson = require("./structjson");
+const { selectFulfillmentMessages, selectExampleMessage } = require("./utils");
 
 const matchers = {
   toHaveIntent(result, intent) {
@@ -64,19 +65,20 @@ const matchers = {
     };
   },
   toHaveTextResult(result, expectedText) {
-    const textMessages = result.fulfillmentMessages.filter(
-      ({ message, platform }) =>
-        message === "text" && platform === "PLATFORM_UNSPECIFIED"
+    const textMessages = selectFulfillmentMessages(
+      result,
+      "text",
+      "PLATFORM_UNSPECIFIED"
     );
 
-    const correspondingMessage = textMessages.find(({ text: { text } }) =>
-      text[0].includes(expectedText)
+    const correspondingMessage = textMessages.find(
+      ({ text: { text } }) => text[0] === expectedText
     );
 
-    const exampleMessage =
-      !correspondingMessage &&
-      textMessages.length !== 0 &&
-      textMessages[0].text.text[0];
+    const exampleMessage = selectExampleMessage(
+      textMessages,
+      correspondingMessage
+    );
 
     if (!correspondingMessage) {
       return {
@@ -98,9 +100,10 @@ const matchers = {
     };
   },
   toHaveOneOfTextResults(result, expectedTextArray) {
-    const textMessages = result.fulfillmentMessages.filter(
-      ({ message, platform }) =>
-        message === "text" && platform === "PLATFORM_UNSPECIFIED"
+    const textMessages = selectFulfillmentMessages(
+      result,
+      "text",
+      "PLATFORM_UNSPECIFIED"
     );
 
     const correspondingMessage = textMessages.find(
@@ -109,14 +112,14 @@ const matchers = {
           text: [text]
         }
       }) => {
-        return expectedTextArray.some(t => text.includes(t));
+        return expectedTextArray.includes(text);
       }
     );
 
-    const exampleMessage =
-      !correspondingMessage &&
-      textMessages.length !== 0 &&
-      textMessages[0].text.text[0];
+    const exampleMessage = selectExampleMessage(
+      textMessages,
+      correspondingMessage
+    );
 
     if (!correspondingMessage) {
       return {
@@ -138,9 +141,10 @@ const matchers = {
     };
   },
   toHaveQuickReplies(result, expectedQuickReplies) {
-    const quickRepliesArray = result.fulfillmentMessages.filter(
-      ({ message, platform }) =>
-        message === "quickReplies" && platform === "PLATFORM_UNSPECIFIED"
+    const quickRepliesArray = selectFulfillmentMessages(
+      result,
+      "quickReplies",
+      "PLATFORM_UNSPECIFIED"
     );
 
     if (quickRepliesArray.length === 0) {
@@ -164,9 +168,10 @@ const matchers = {
     };
   },
   toHaveBasicCard(result, expectedCard) {
-    const cardArray = result.fulfillmentMessages.filter(
-      ({ message, platform }) =>
-        message === "card" && platform === "PLATFORM_UNSPECIFIED"
+    const cardArray = selectFulfillmentMessages(
+      result,
+      "card",
+      "PLATFORM_UNSPECIFIED"
     );
 
     if (cardArray.length === 0) {
