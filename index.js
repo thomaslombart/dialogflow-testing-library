@@ -40,15 +40,6 @@ function createBot(projectId, languageCode = "en") {
     },
     newSession: function() {
       return createBot(projectId, languageCode);
-    },
-    matchIntent: async function(sentences, intent) {
-      await Promise.all(
-        sentences.map(async sentence => {
-          const result = await request(sentence, languageCode, session);
-          expect(result).toHaveIntent(intent);
-          return result;
-        })
-      );
     }
   };
 }

@@ -30,16 +30,6 @@ describe("Testing bot", () => {
     expect(result).toHaveIntent("favorite color");
   });
 
-  test("Multiples sentences match the same intent", async () => {
-    const { matchIntent } = bot;
-    const sentences = [
-      "I love yellow",
-      "I like blue",
-      "Yellow is my favorite color"
-    ];
-    await matchIntent(sentences, "favorite color");
-  });
-
   test("The user chooses its favorite color", async () => {
     const { request } = bot;
     const colorsResult = await request("I want to hear about colors");
@@ -129,16 +119,6 @@ Maybe you want to clean all that state and request your bot in the same test. Fo
 
 1. Recreate a new bot: `const otherBot = createBot("my-project-id", "de")`
 2. Call the `newSession` method. It will create a session and all methods associated to it with the exact same parameters you passed to the first `createBot` request.
-
-### `matchIntent(sentences, intent)`
-
-You may want to check if a collection of sentences are always detected as the same intent. Thus, you can make sure your training phrases are not conflicting across all intents.
-It takes every phrase of your `sentences` array, trigger a request for each one of them and run the `toHaveIntent` matcher.
-
-**Parameters**:
-
-- `sentences`: **Required**. an array of queries, each one of them will be passed to `request`.
-- `intent`: **Required**. the intent that should be matched.
 
 ## Custom matchers
 
