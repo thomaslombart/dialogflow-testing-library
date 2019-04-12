@@ -3,7 +3,7 @@ const diff = require("jest-diff");
 const { printReceived, printExpected } = require("jest-matcher-utils");
 
 describe("Testing matchers", () => {
-  test.only("toHaveIntent", () => {
+  test("toHaveIntent", () => {
     const result = {
       queryText: "find me activities",
       intent: {
@@ -79,5 +79,56 @@ describe("Testing matchers", () => {
         }
       )}`
     );
+  });
+
+  test("toHaveCard", () => {
+    const receivedCard = {
+      buttons: [
+        {
+          text: "Learn more about yellow",
+          postback: "https://myappaboutcolors.dev/yellow"
+        }
+      ],
+      title: "Yellow",
+      subtitle: "Color between orange and red",
+      imageUri: "https://myappaboutcolors.dev/yellow.jpg"
+    };
+
+    const result = {
+      fulfillmentMessages: [
+        {
+          platform: "PLATFORM_UNSPECIFIED",
+          text: { text: ["Here is what I found about Yellow."] },
+          message: "text"
+        },
+        {
+          platform: "PLATFORM_UNSPECIFIED",
+          card: receivedCard,
+          message: "card"
+        }
+      ]
+    };
+
+    expect(result).toHaveCard(receivedCard);
+    expect(() => expect(result).toHaveCard({})).toThrowError(
+      `The expected card is different from the received one:\n\n${diff(
+        receivedCard,
+        {}
+      )}.`
+    );
+
+    const resultWithNoCards = {
+      fulfillmentMessages: [
+        {
+          platform: "PLATFORM_UNSPECIFIED",
+          text: { text: ["Here is what I found about Yellow."] },
+          message: "text"
+        }
+      ]
+    };
+
+    expect(() =>
+      expect(resultWithNoCards).toHaveCard(receivedCard)
+    ).toThrowError("There are no cards in the response.");
   });
 });
