@@ -193,4 +193,52 @@ describe("Testing matchers", () => {
         colors.blue(`"${result.fulfillmentMessages[0].text.text[0]}"`)}`
     );
   });
+
+  test("toHaveQuickReplies", () => {
+    const quickReplies = ["Another one", "Learn more", "Share it"];
+
+    const result = {
+      fulfillmentMessages: [
+        {
+          platform: "PLATFORM_UNSPECIFIED",
+          text: { text: ["Here is a random color."] },
+          message: "text"
+        },
+        {
+          platform: "PLATFORM_UNSPECIFIED",
+          quickReplies: {
+            quickReplies,
+            title: ""
+          },
+          message: "quickReplies"
+        }
+      ]
+    };
+
+    expect(result).toHaveQuickReplies(quickReplies);
+    expect(() =>
+      expect(result).toHaveQuickReplies(["Yellow", "green", "red"])
+    ).toThrowError(
+      `The expected quick replies are different from the received ones:\n\n${diff(
+        quickReplies,
+        ["Yellow", "green", "red"]
+      )}.\n\nMake sure you provided the quick replies ${colors.bold(
+        "in the right order."
+      )}`
+    );
+    expect(() =>
+      expect(result).toHaveQuickReplies([
+        "Another one",
+        "Share it",
+        "Learn more"
+      ])
+    ).toThrowError(
+      `The expected quick replies are different from the received ones:\n\n${diff(
+        quickReplies,
+        ["Another one", "Share it", "Learn more"]
+      )}.\n\nMake sure you provided the quick replies ${colors.bold(
+        "in the right order."
+      )}`
+    );
+  });
 });
