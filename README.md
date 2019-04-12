@@ -20,7 +20,7 @@ const createBot = require("dialogflow-testing-library");
 
 describe("Testing bot", () => {
   let bot;
-  beforeAll(() => {
+  beforeEach(() => {
     bot = createBot("my-bot-id");
   });
 
