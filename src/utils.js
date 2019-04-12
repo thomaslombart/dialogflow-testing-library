@@ -1,4 +1,8 @@
-function selectFulfillmentMessages(result, type, source) {
+function selectFulfillmentMessages(
+  result,
+  type,
+  source = "PLATFORM_UNSPECIFIED"
+) {
   const fulfillmentMessages = result.fulfillmentMessages.filter(
     ({ message, platform }) => message === type && platform === source
   );

@@ -65,11 +65,7 @@ const matchers = {
     };
   },
   toHaveTextResult(result, expectedText) {
-    const textMessages = selectFulfillmentMessages(
-      result,
-      "text",
-      "PLATFORM_UNSPECIFIED"
-    );
+    const textMessages = selectFulfillmentMessages(result, "text");
 
     const correspondingMessage = textMessages.find(
       ({ text: { text } }) => text[0] === expectedText
@@ -100,11 +96,7 @@ const matchers = {
     };
   },
   toHaveOneOfTextResults(result, expectedTextArray) {
-    const textMessages = selectFulfillmentMessages(
-      result,
-      "text",
-      "PLATFORM_UNSPECIFIED"
-    );
+    const textMessages = selectFulfillmentMessages(result, "text");
 
     const correspondingMessage = textMessages.find(
       ({
@@ -141,11 +133,7 @@ const matchers = {
     };
   },
   toHaveQuickReplies(result, expectedQuickReplies) {
-    const quickRepliesArray = selectFulfillmentMessages(
-      result,
-      "quickReplies",
-      "PLATFORM_UNSPECIFIED"
-    );
+    const quickRepliesArray = selectFulfillmentMessages(result, "quickReplies");
 
     if (quickRepliesArray.length === 0) {
       return {
@@ -168,11 +156,7 @@ const matchers = {
     };
   },
   toHaveCard(result, expectedCard) {
-    const cardArray = selectFulfillmentMessages(
-      result,
-      "card",
-      "PLATFORM_UNSPECIFIED"
-    );
+    const cardArray = selectFulfillmentMessages(result, "card");
 
     if (cardArray.length === 0) {
       return {
