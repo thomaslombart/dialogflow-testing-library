@@ -33,11 +33,11 @@ describe("Testing bot", () => {
   test("The user chooses its favorite color", async () => {
     const { request } = bot;
     const colorsResult = await request("I want to hear about colors");
-    expect(colorsResult).toHaveTextResult(
+    expect(colorsResult).toHaveText(
       "Which color, indigo taco, pink unicorn or blue grey coffee?"
     );
     const selectedColorResult = await request("blue grey coffee");
-    expect(selectedColorResult).toHaveTextResult("Here's the color.");
+    expect(selectedColorResult).toHaveText("Here's the color.");
   });
 
   test("It returns a question if talk about our favorite color", async () => {
@@ -171,7 +171,7 @@ test("The result has the right context", async () => {
 
 **Note**: `name`, `lifespanCount` and `parameters` are required.
 
-### `expect(result).toHaveTextResult(text)`
+### `expect(result).toHaveText(text)`
 
 Asserts one of your response contains the text you passed as an argument.
 
@@ -184,11 +184,11 @@ Asserts one of your response contains the text you passed as an argument.
 test("It returns a question if talk about our favorite color", async () => {
   const { request } = bot;
   const result = await request("I like yellow");
-  expect(result).toHaveTextResult("Do you want to learn more about yellow?");
+  expect(result).toHaveText("Do you want to learn more about yellow?");
 });
 ```
 
-### `expect(result).toHaveOneOfTextResults(textArray)`
+### `expect(result).toHaveOneOfTexts(textArray)`
 
 One of best practices of conversational design is to [vary the answers](https://designguidelines.withgoogle.com/conversation/style-guide/language.html) you give to the user so the conversation feels more dynamic and natural. Thus, if you randomize the answers returned to the user, you can use this matcher to assert one of your expected text does match what the bot answered.
 
@@ -201,7 +201,7 @@ One of best practices of conversational design is to [vary the answers](https://
 test("It returns a question if the user talks about their favorite color", async () => {
   const { request } = bot;
   const result = await request("I like yellow");
-  expect(result).toHaveOneOfTextResults([
+  expect(result).toHaveOneOfTexts([
     "Do you want to learn more about yellow?",
     "Yellow is a great color! Do you want to know more about it?",
     "Me too. Want to learn more about yellow ?"

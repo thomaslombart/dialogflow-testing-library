@@ -64,7 +64,7 @@ const matchers = {
         )}`
     };
   },
-  toHaveTextResult(result, expectedText) {
+  toHaveText(result, expectedText) {
     const textMessages = selectFulfillmentMessages(result, "text");
 
     const correspondingMessage = textMessages.find(
@@ -95,7 +95,7 @@ const matchers = {
       pass: true
     };
   },
-  toHaveOneOfTextResults(result, expectedTextArray) {
+  toHaveOneOfTexts(result, expectedTextArray) {
     const textMessages = selectFulfillmentMessages(result, "text");
 
     const correspondingMessage = textMessages.find(
