@@ -167,7 +167,7 @@ const matchers = {
         )}`
     };
   },
-  toHaveBasicCard(result, expectedCard) {
+  toHaveCard(result, expectedCard) {
     const cardArray = selectFulfillmentMessages(
       result,
       "card",

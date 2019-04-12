@@ -227,7 +227,7 @@ test("It returns a question if talk about our favorite color", async () => {
 
 **Note**: the **order of your quick replies matters**. `["Another one", "Learn more", "Share it"]` is not the same as `["Another one", "Share it", "Learn more"]`.
 
-### `expect(result).toHaveBasicCard(expectedCard)`
+### `expect(result).toHaveCard(expectedCard)`
 
 Asserts the displayed card is the same as the one you've provided
 
@@ -239,7 +239,7 @@ test("It returns a question if talk about our favorite color", async () => {
   const { request } = bot;
   const result = await request("Tell me more about yellow");
 
-  expect(result).toHaveBasicCard({
+  expect(result).toHaveCard({
     title: "Yellow",
     subtitle: "Color between orange and red",
     imageUri: "https://myappaboutcolors.dev/yellow.jpg",
