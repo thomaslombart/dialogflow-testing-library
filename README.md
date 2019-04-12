@@ -198,7 +198,7 @@ One of best practices of conversational design is to [vary the answers](https://
 - `textArray`: an array of sentences whose one should appear in the fulfillment messages of your intent
 
 ```js
-test("It returns a question if the user talks about our favorite color", async () => {
+test("It returns a question if the user talks about their favorite color", async () => {
   const { request } = bot;
   const result = await request("I like yellow");
   expect(result).toHaveOneOfTextResults([
@@ -217,10 +217,9 @@ Asserts the displayed suggestion chips are the same as the ones you provided.
 - `quickReplies`: an array of quick replies.
 
 ```js
-test("It returns a question if talk about our favorite color", async () => {
+test("It returns suggestion chips if the user picks a random color", async () => {
   const { request } = bot;
   const result = await request("Pick a random color");
-
   expect(result).toHaveQuickReplies(["Another one", "Learn more", "Share it"]);
 });
 ```
@@ -235,7 +234,7 @@ Asserts the displayed card is the same as the one you've provided
 - `expectedCard`: an instance of [**BasicCard**](https://cloud.google.com/dialogflow-enterprise/docs/reference/rest/v2/projects.agent.intents#card)
 
 ```js
-test("It returns a question if talk about our favorite color", async () => {
+test("It returns a card if the user wants to learn more about a color", async () => {
   const { request } = bot;
   const result = await request("Tell me more about yellow");
 
