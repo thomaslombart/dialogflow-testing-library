@@ -11,9 +11,11 @@ function selectFulfillmentMessages(
 }
 
 function selectExampleMessage(messages, correspondingMessage) {
-  return (
-    !correspondingMessage && messages.length !== 0 && messages[0].text.text[0]
-  );
+  if (messages.length === 0) {
+    return undefined;
+  }
+
+  return !correspondingMessage && messages[0].text.text[0];
 }
 
 module.exports = { selectFulfillmentMessages, selectExampleMessage };
