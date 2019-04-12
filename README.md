@@ -254,8 +254,6 @@ test("It returns a card if the user wants to learn more about a color", async ()
 
 ## Roadmap
 
-- Test this library
 - Add support for Actions On Google
 - Add support for Facebook Messenger,
-- Add custom matchers for basic cards
 - Add custom matchers for parameters
