@@ -98,7 +98,7 @@ describe("Testing matchers", () => {
       fulfillmentMessages: [
         {
           platform: "PLATFORM_UNSPECIFIED",
-          text: { text: ["Here is what I found about Yellow."] },
+          text: { text: ["Here is what I found about yellow."] },
           message: "text"
         },
         {
@@ -121,7 +121,7 @@ describe("Testing matchers", () => {
       fulfillmentMessages: [
         {
           platform: "PLATFORM_UNSPECIFIED",
-          text: { text: ["Here is what I found about Yellow."] },
+          text: { text: ["Here is what I found about yellow."] },
           message: "text"
         }
       ]
@@ -130,5 +130,67 @@ describe("Testing matchers", () => {
     expect(() =>
       expect(resultWithNoCards).toHaveCard(receivedCard)
     ).toThrowError("There are no cards in the response.");
+  });
+
+  test("toHaveText", () => {
+    const result = {
+      fulfillmentMessages: [
+        {
+          platform: "PLATFORM_UNSPECIFIED",
+          text: { text: ["Here is what I found about yellow."] },
+          message: "text"
+        },
+        {
+          platform: "PLATFORM_UNSPECIFIED",
+          card: {},
+          message: "card"
+        }
+      ]
+    };
+
+    expect(result).toHaveText("Here is what I found about yellow.");
+    expect(() =>
+      expect(result).toHaveText("Here is what I found about pink.")
+    ).toThrowError(
+      `No such text message have been found in the fulfillment messages.\nMake sure that you're looking for ${
+        "text only".bold
+      } and not text in cards or custom payloads for example.${"\nHere is one of the text messages displayed:\n\n" +
+        colors.blue(`"${result.fulfillmentMessages[0].text.text[0]}"`)}`
+    );
+  });
+
+  test("toHaveOneOfTexts", () => {
+    const result = {
+      fulfillmentMessages: [
+        {
+          platform: "PLATFORM_UNSPECIFIED",
+          text: { text: ["Here is what I found about yellow."] },
+          message: "text"
+        },
+        {
+          platform: "PLATFORM_UNSPECIFIED",
+          card: {},
+          message: "card"
+        }
+      ]
+    };
+
+    expect(result).toHaveOneOfTexts([
+      "Do you want to learn more about yellow?",
+      "Here is what I found about yellow.",
+      "Me too. Want to learn more about yellow ?"
+    ]);
+    expect(() =>
+      expect(result).toHaveOneOfTexts([
+        "Do you want to learn more about yellow?",
+        "Here is what I found about pink.",
+        "Me too. Want to learn more about yellow ?"
+      ])
+    ).toThrowError(
+      `No such text message have been found in the fulfillment messages.\nMake sure that you're looking for ${
+        "text only".bold
+      } and not text in cards or custom payloads for example.${"\nHere is one of the text messages displayed:\n\n" +
+        colors.blue(`"${result.fulfillmentMessages[0].text.text[0]}"`)}`
+    );
   });
 });
