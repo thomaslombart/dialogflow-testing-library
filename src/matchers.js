@@ -1,6 +1,5 @@
 const { printReceived, printExpected } = require("jest-matcher-utils");
 const diff = require("jest-diff");
-const isEqual = require("lodash.isequal");
 const colors = require("colors");
 
 const structjson = require("./structjson");
@@ -24,7 +23,7 @@ const matchers = {
     };
   },
   toHaveContext(result, expectedContext) {
-    if (!expectedContext || isEqual(expectedContext, {})) {
+    if (!expectedContext || this.equals(expectedContext, {})) {
       return {
         pass: false,
         message: () =>
@@ -56,7 +55,7 @@ const matchers = {
     };
 
     return {
-      pass: isEqual(formattedReceivedContext, expectedContext),
+      pass: this.equals(formattedReceivedContext, expectedContext),
       message: () =>
         `The expected context is not the same as the received one.\n\nDifference:\n${diff(
           formattedReceivedContext,
@@ -145,7 +144,7 @@ const matchers = {
     const quickReplies = quickRepliesArray[0].quickReplies.quickReplies;
 
     return {
-      pass: isEqual(quickReplies, expectedQuickReplies),
+      pass: this.equals(quickReplies, expectedQuickReplies),
       message: () =>
         `The expected quick replies are different from the received ones:\n\n${diff(
           quickReplies,
@@ -168,7 +167,7 @@ const matchers = {
     const card = cardArray[0].card;
 
     return {
-      pass: isEqual(card, expectedCard),
+      pass: this.equals(card, expectedCard),
       message: () =>
         `The expected card is different from the received one:\n\n${diff(
           card,
