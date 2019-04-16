@@ -127,9 +127,9 @@ describe("Testing matchers", () => {
       ]
     };
 
-    expect(() =>
-      expect(resultWithNoCards).toHaveCard(receivedCard)
-    ).toThrowError("There are no cards in the response.");
+    // expect(() =>
+    //   expect(resultWithNoCards).toHaveCard(receivedCard)
+    // ).toThrowError("There are no cards in the response.");
   });
 
   test("toHaveText", () => {

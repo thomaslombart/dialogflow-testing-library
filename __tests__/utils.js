@@ -1,6 +1,7 @@
 const {
   selectFulfillmentMessages,
-  selectExampleMessage
+  selectExampleMessage,
+  isActionsOnGoogle
 } = require("../src/utils");
 
 describe("utils", () => {
@@ -63,6 +64,39 @@ describe("utils", () => {
 
     test("It returns undefined if there are no text fulfillment messages ", () => {
       expect(selectExampleMessage([], undefined)).toBe(undefined);
+    });
+  });
+
+  describe("isActionsOnGoogle", () => {
+    const result = {
+      fulfillmentMessages: [
+        {
+          platform: "ACTIONS_ON_GOOGLE"
+        },
+        {
+          platform: "PLATFORM_UNSPECIFIED"
+        }
+      ]
+    };
+
+    const otherResult = {
+      fulfillmentMessages: [
+        {
+          platform: "PLATFORM_UNSPECIFIED",
+          text: {},
+          message: "text"
+        },
+        {
+          platform: "PLATFORM_UNSPECIFIED",
+          card: {},
+          message: "card"
+        }
+      ]
+    };
+
+    test("It returns true if at least one fulfillment message is on ACTIONS_ON_GOOGLE platform", () => {
+      expect(isActionsOnGoogle(result)).toBe(true);
+      expect(isActionsOnGoogle(otherResult)).toBe(false);
     });
   });
 });

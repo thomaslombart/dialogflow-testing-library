@@ -2,6 +2,7 @@ const dialogflow = require("dialogflow");
 const uuid = require("uuid");
 
 const matchers = require("./src/matchers");
+const structjson = require("./src/structjson");
 
 expect.extend(matchers);
 
@@ -14,7 +15,12 @@ function generateSession(projectId) {
   return [sessionClient, sessionPath];
 }
 
-async function request(text, languageCode, [sessionClient, sessionPath]) {
+async function request(
+  text,
+  source,
+  languageCode,
+  [sessionClient, sessionPath]
+) {
   const request = {
     session: sessionPath,
     queryInput: {
@@ -22,6 +28,11 @@ async function request(text, languageCode, [sessionClient, sessionPath]) {
         text,
         languageCode
       }
+    },
+    queryParams: {
+      payload: structjson.jsonToStructProto({
+        source
+      })
     }
   };
 
@@ -30,16 +41,16 @@ async function request(text, languageCode, [sessionClient, sessionPath]) {
   return responses[0].queryResult;
 }
 
-function createBot(projectId, languageCode = "en") {
+function createBot(projectId, source = "DEFAULT", languageCode = "en") {
   const session = generateSession(projectId);
 
   return {
     request: async function(text) {
-      const response = await request(text, languageCode, session);
+      const response = await request(text, source, languageCode, session);
       return response;
     },
     newSession: function() {
-      return createBot(projectId, languageCode);
+      return createBot(projectId, source, languageCode);
     }
   };
 }

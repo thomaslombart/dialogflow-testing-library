@@ -92,14 +92,15 @@ Set the environment variable `GOOGLE_APPLICATION_CREDENTIALS` to the file path o
 
 Beforehand, you have to create the bot that will allows you to make requests.
 
-### `createBot(projectId, languageCode)`
+### `createBot(projectId, source, languageCode)`
 
 This function will enable a session with your Dialogflow bot and returns an object containing all the functions that allow you to interact with your bot.
 
 **Parameters**:
 
 - `projectId`: **Required**. Your Google project ID. You can find in the settings parameters of Dialogflow under the **GOOGLE PROJECT** section.
-- `languageCode`: **Required**. The language code in which you want to request the bot. The default value is `en`. You can find all the language codes supported [here](https://cloud.google.com/dialogflow-enterprise/docs/reference/language).
+- `source`: **Optional**. The platform from which you want to get the result. It can be `ACTIONS_ON_GOOGLE` or `FACEBOOK` for example.
+- `languageCode`: **Optional**. The language code in which you want to request the bot. The default value is `en`. You can find all the language codes supported [here](https://cloud.google.com/dialogflow-enterprise/docs/reference/language).
 
 ### `request(text)`
 
@@ -255,5 +256,5 @@ test("It returns a card if the user wants to learn more about a color", async ()
 ## Roadmap
 
 - Add support for Actions On Google
-- Add support for Facebook Messenger,
+- Add support for custom payloads
 - Add custom matchers for parameters
