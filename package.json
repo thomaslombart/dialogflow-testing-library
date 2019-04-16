@@ -1,7 +1,7 @@
 {
   "name": "dialogflow-testing-library",
   "description": "A testing library for your Dialogflow bots",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "engines": {
     "node": "8"
   },
