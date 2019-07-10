@@ -1,21 +1,20 @@
-function selectFulfillmentMessages(
-  result,
-  type,
-  source = "PLATFORM_UNSPECIFIED"
-) {
+function selectFulfillmentMessages(result, type, source) {
   const fulfillmentMessages = result.fulfillmentMessages.filter(
-    ({ message, platform }) => message === type && platform === source
+    ({ message: messageType, platform }) => {
+      const isSameType = messageType === type;
+      return source ? isSameType && platform === source : isSameType;
+    }
   );
 
   return fulfillmentMessages;
 }
 
-function selectExampleMessage(messages, correspondingMessage) {
+function selectExampleMessage(messages) {
   if (messages.length === 0) {
     return undefined;
   }
 
-  return !correspondingMessage && messages[0].text.text[0];
+  return messages[0].text.text[0];
 }
 
 /**

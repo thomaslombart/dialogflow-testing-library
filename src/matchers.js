@@ -70,23 +70,18 @@ const matchers = {
       ({ text: { text } }) => text[0] === expectedText
     );
 
-    const exampleMessage = selectExampleMessage(
-      textMessages,
-      correspondingMessage
-    );
-
     if (!correspondingMessage) {
+      const exampleMessage = selectExampleMessage(textMessages);
       return {
         pass: false,
         message: () =>
           `No such text message have been found in the fulfillment messages.\nMake sure that you're looking for ${
             "text only".bold
-          } and not text in cards or custom payloads for example.${
-            exampleMessage
-              ? "\nHere is one of the text messages displayed:\n\n" +
-                colors.blue(`"${exampleMessage}"`)
-              : ""
-          }`
+          } and not text in cards or custom payloads for example.${exampleMessage &&
+            "\nHere is one of the text messages displayed:\n\n" +
+              colors.blue(
+                `"${exampleMessage}"`
+              )}.\n\nOriginal text messages: ${JSON.stringify(textMessages)}`
       };
     }
 
@@ -97,22 +92,12 @@ const matchers = {
   toHaveOneOfTexts(result, expectedTextArray) {
     const textMessages = selectFulfillmentMessages(result, "text");
 
-    const correspondingMessage = textMessages.find(
-      ({
-        text: {
-          text: [text]
-        }
-      }) => {
-        return expectedTextArray.includes(text);
-      }
-    );
-
-    const exampleMessage = selectExampleMessage(
-      textMessages,
-      correspondingMessage
-    );
+    const correspondingMessage = textMessages.find(({ text: { text } }) => {
+      return expectedTextArray.includes(text[0]);
+    });
 
     if (!correspondingMessage) {
+      const exampleMessage = selectExampleMessage(textMessages);
       return {
         pass: false,
         message: () =>
@@ -123,7 +108,7 @@ const matchers = {
               ? "\nHere is one of the text messages displayed:\n\n" +
                 colors.blue(`"${exampleMessage}"`)
               : ""
-          }`
+          }.\n\nOriginal text messages: ${JSON.stringify(textMessages)}`
       };
     }
 
